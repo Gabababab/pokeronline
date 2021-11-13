@@ -19,8 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import it.prova.pokeronline.model.Ruolo;
-import it.prova.pokeronline.model.StatoUtente;
 
 @Entity
 @Table(name = "utente")
