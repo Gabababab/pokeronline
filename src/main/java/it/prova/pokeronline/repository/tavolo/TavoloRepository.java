@@ -4,6 +4,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import it.prova.pokeronline.model.Tavolo;
 
-public interface TavoloRepository extends CrudRepository<Tavolo, Long>{
+public interface TavoloRepository extends CrudRepository<Tavolo, Long>, CustomTavoloRepository{
 
 }

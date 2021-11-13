@@ -16,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import it.prova.pokeronline.model.Ruolo;
@@ -55,6 +56,9 @@ public class Utente {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tavolo_id", nullable = false)
 	private Tavolo tavolo;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "utenteCreatore")
+	private Set<Tavolo> tavoliCreati = new HashSet<Tavolo>();
 
 	public Utente() {
 	}

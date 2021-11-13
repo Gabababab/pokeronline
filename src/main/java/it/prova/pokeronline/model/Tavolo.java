@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -32,6 +34,10 @@ public class Tavolo {
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tavolo")
 	private Set<Utente> utenti = new HashSet<Utente>(0);
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "utenteCreatore_id", nullable = false)
+	private Utente utenteCreatore;
 
 	public Tavolo() {
 		super();
@@ -101,4 +107,13 @@ public class Tavolo {
 		this.utenti = utenti;
 	}
 
+	public Utente getUtenteCreatore() {
+		return utenteCreatore;
+	}
+
+	public void setUtenteCreatore(Utente utenteCreatore) {
+		this.utenteCreatore = utenteCreatore;
+	}
+
+	
 }
