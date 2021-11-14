@@ -8,6 +8,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import it.prova.pokeronline.service.RuoloService;
+import it.prova.pokeronline.service.TavoloService;
 import it.prova.pokeronline.service.UtenteService;
 import it.prova.pokeronline.model.Ruolo;
 import it.prova.pokeronline.model.StatoUtente;
@@ -20,17 +21,19 @@ public class PokeronlineApplication implements CommandLineRunner {
 	private RuoloService ruoloServiceInstance;
 	@Autowired
 	private UtenteService utenteServiceInstance;
-
+	@Autowired
+	private TavoloService tavoloServiceInstance;
+	
 	public static void main(String[] args) {
 		SpringApplication.run(PokeronlineApplication.class, args);
 	}
-
+	
 	@Override
 	public void run(String... args) throws Exception {
 		if (ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN") == null) {
 			ruoloServiceInstance.inserisciNuovo(new Ruolo("Administrator", "ROLE_ADMIN"));
 		}
-
+		
 		if (ruoloServiceInstance.cercaPerDescrizioneECodice("User Special Player", "ROLE_SPECIAL_PLAYER") == null) {
 			ruoloServiceInstance.inserisciNuovo(new Ruolo("User Special Player", "ROLE_SPECIAL_PLAYER"));
 		}
@@ -40,7 +43,7 @@ public class PokeronlineApplication implements CommandLineRunner {
 		}
 		
 		if (utenteServiceInstance.findByUsername("admin") == null) {
-			Utente admin = new Utente("admin","admin", "Mario", "Rossi", new Date());
+			Utente admin = new Utente("admin", "admin", "Mario", "Rossi", new Date());
 			admin.setStato(StatoUtente.ATTIVO);
 			admin.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
 			utenteServiceInstance.inserisciNuovo(admin);

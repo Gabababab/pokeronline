@@ -27,17 +27,10 @@
 									<li><a class="dropdown-item"
 										href="${pageContext.request.contextPath}/home">Home</a></li>
 									<li><a class="dropdown-item"
-										href="${pageContext.request.contextPath}/regista/search">Ricerca
-											Registi</a></li>
+										href="${pageContext.request.contextPath}/tavolo/search">Ricerca
+											Tavoli</a></li>
 									<li><a class="dropdown-item"
-										href="${pageContext.request.contextPath}/regista/insert">Inserisci
-											Regista</a></li>
-									<li><a class="dropdown-item"
-										href="${pageContext.request.contextPath}/film/search">Ricerca
-											Film</a></li>
-									<li><a class="dropdown-item"
-										href="${pageContext.request.contextPath}/film/insert">Inserisci
-											Film</a></li>
+										href="${pageContext.request.contextPath}/tavolo/insert">Crea un Tavolo</a></li>
 								</ul></li>
 							<sec:authorize access="hasRole('ADMIN')">
 								<li class="nav-item dropdown"><a
