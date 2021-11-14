@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,6 +34,14 @@ public class TavoloController {
 		mv.addObject("tavolo_list_attribute", TavoloDTO.createTavoloDTOListFromModelList(tavoli));
 		mv.setViewName("tavolo/list");
 		return mv;
+	}
+	
+	@PostMapping("/list")
+	public String listTavoli(TavoloDTO tavoloExample, ModelMap model) {
+		System.out.println(tavoloExample);
+		List<Tavolo> tavoli = tavoloService.findByExample(tavoloExample.buildTavoloModel());
+		model.addAttribute("tavolo_list_attribute", TavoloDTO.createTavoloDTOListFromModelList(tavoli));
+		return "tavolo/list";
 	}
 	
 	@GetMapping("/searchTavoliUtente")

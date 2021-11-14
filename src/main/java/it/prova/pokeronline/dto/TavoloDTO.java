@@ -31,7 +31,7 @@ public class TavoloDTO {
 	private Integer creditoMinimo;
 	
 	@NotNull(message = "{utentecreatore.notnull}")
-	private Utente utenteCreatore;
+	private UtenteDTO utenteCreatore;
 
 	private Set<Utente> utentiGiocatori = new HashSet<Utente>();
 
@@ -40,7 +40,7 @@ public class TavoloDTO {
 	}
 
 	public TavoloDTO(Long id, String denominazione, Date dataCreazione, Integer esperienzaMin, Integer cifraMinima,
-			Utente utenteCreatore, Set<Utente> giocatori) {
+			UtenteDTO utenteCreatore, Set<Utente> giocatori) {
 		super();
 		this.id = id;
 		this.denominazione = denominazione;
@@ -108,11 +108,11 @@ public class TavoloDTO {
 		this.creditoMinimo = cifraMinima;
 	}
 
-	public Utente getUtenteCreatore() {
+	public UtenteDTO getUtenteCreatore() {
 		return utenteCreatore;
 	}
 
-	public void setUtenteCreatore(Utente utenteCreatore) {
+	public void setUtenteCreatore(UtenteDTO utenteCreatore) {
 		this.utenteCreatore = utenteCreatore;
 	}
 
@@ -126,12 +126,17 @@ public class TavoloDTO {
 
 	public static TavoloDTO buildTavoloDTOFromModel(Tavolo tavolo) {
 		return new TavoloDTO(tavolo.getId(), tavolo.getDenominazione(), tavolo.getDateCreated(),
-				tavolo.getEsperienzaMinima(), tavolo.getCreditoMinimo(), tavolo.getUtenteCreatore(), tavolo.getUtenti());
+				tavolo.getEsperienzaMinima(), tavolo.getCreditoMinimo(), UtenteDTO.buildUtenteDTOFromModel(tavolo.getUtenteCreatore()), tavolo.getUtenti());
 	}
 	
 	public static List<TavoloDTO> createTavoloDTOListFromModelList(List<Tavolo> modelListInput) {
 		return modelListInput.stream().map(registaEntity -> {
 			return TavoloDTO.buildTavoloDTOFromModel(registaEntity);
 		}).collect(Collectors.toList());
+	}
+
+	public Tavolo buildTavoloModel() {
+		return new Tavolo(this.id, this.denominazione, this.dateCreated, this.esperienzaMinima, this.creditoMinimo,
+				this.utentiGiocatori, this.utenteCreatore.buildUtenteModel(false));
 	}
 }
