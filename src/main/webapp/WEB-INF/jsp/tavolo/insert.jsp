@@ -51,7 +51,7 @@
 				<div class='card-body'>
 
 					<form:form method="post" modelAttribute="insert_tavolo_attr"
-						action="save" novalidate="novalidate" class="row g-3">
+						action="${pageContext.request.contextPath }/tavolo/save" novalidate="novalidate" class="row g-3">
 
 						<div class="col-md-6">
 							<label for="denominazione" class="form-label">Nome tavolo</label>

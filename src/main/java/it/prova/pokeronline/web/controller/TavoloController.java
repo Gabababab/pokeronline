@@ -45,7 +45,6 @@ public class TavoloController {
 	
 	@PostMapping("/list")
 	public String listTavoli(TavoloDTO tavoloExample, ModelMap model) {
-		System.out.println(tavoloExample);
 		List<Tavolo> tavoli = tavoloService.findByExample(tavoloExample.buildTavoloModel());
 		model.addAttribute("tavolo_list_attribute", TavoloDTO.createTavoloDTOListFromModelList(tavoli));
 		return "tavolo/list";
@@ -71,16 +70,16 @@ public class TavoloController {
 	}
 
 	@PostMapping("/save")
-	public String saveTavolo(@Valid @ModelAttribute("insert_tavolo_attr") TavoloDTO tavoloDTO, BindingResult result,
+	public String save(@Valid @ModelAttribute("insert_tavolo_attr") TavoloDTO tavoloDTO, BindingResult result,
 			RedirectAttributes redirectAttrs, HttpServletRequest request, Principal principal) {
 
 
 		if (result.hasErrors()) 
 			return "tavolo/insert";
 		
-		Utente utenteInserimento= utenteService.findByUsername(principal.getName());
-		UtenteDTO utenteCreatore = new UtenteDTO();
-		utenteCreatore.setId(utenteInserimento.getId());
+		Utente utenteInserimento= utenteService.findByUsername(request.getUserPrincipal().getName());
+		UtenteDTO utenteCreatore = UtenteDTO.buildUtenteDTOFromModel(utenteInserimento);
+		
 		tavoloDTO.setUtenteCreatore(utenteCreatore);
 	
 		tavoloService.inserisciNuovo(tavoloDTO.buildTavoloModel());

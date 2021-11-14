@@ -94,10 +94,10 @@
 							<fmt:formatDate pattern='yyyy-MM-dd' var="parsedDate" type='date'
 								value='${search_tavolo_attr.dateCreated}' />
 							<div class="form-group col-md-6">
-								<label for="dataCreazione" class="form-label">Data
-									Creazione:</label> <input class="form-control " id="dataCreazione"
+								<label for="dateCreated" class="form-label">Data
+									Creazione:</label> <input class="form-control " id="dateCreated"
 									type="date" placeholder="dd/MM/yy" title="formato : gg/mm/aaaa"
-									name="dataCreazione" value="${parsedDate}">
+									name="dateCreated" value="${parsedDate}">
 							</div>
 						</div>
 
@@ -114,7 +114,7 @@
 								tavolo:</label> <input class="form-control " type="text"
 								id="utenteCreatoreSearchInput" name="utenteCreatoreInput"
 								value="${search_tavolo_attr.utenteCreatore.nome}${search_tavolo_attr.utenteCreatore.cognome}">
-							<input type="hidden" name="utenteCreatore.id"
+							<input type="hidden" name="idUtenteCreatore"
 								id="utenteCreatoreId"
 								value="${search_tavolo_attr.utenteCreatore.id}">
 						</div>
@@ -124,7 +124,7 @@
 							<input class="form-control " type="text"
 								id="giocatoriSearchInput" name="giocatoriInput"
 								value="${search_tavolo_attr.giocatoreCercato.nome}"> <input
-								type="hidden" name="giocatori.id" id="giocatoriId"
+								type="hidden" name="idGiocatori" id="giocatoriId"
 								value="${search_tavolo_attr.giocatoreCercato.id}">
 						</div>
 
