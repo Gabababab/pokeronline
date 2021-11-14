@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.pokeronline.model.Tavolo;
+import it.prova.pokeronline.model.Utente;
 import it.prova.pokeronline.repository.tavolo.TavoloRepository;
 
 @Service
@@ -25,6 +26,11 @@ public class TavoloServiceImpl implements TavoloService{
 	public Tavolo caricaSingoloElemento(Long id) {
 		return repository.findById(id).orElse(null);
 	}
+	
+//	@Transactional(readOnly = true)
+//	public Tavolo caricaSingoloTavoloConGiocatori(Long id) {
+//		return repository.findByIdConGiocatori(id).orElse(null);
+//	}
 
 	@Transactional
 	public void aggiorna(Tavolo tavoloInstance) {
@@ -51,4 +57,11 @@ public class TavoloServiceImpl implements TavoloService{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Transactional(readOnly = true)
+	public List<Tavolo> listAllTavoliUtente(Utente user) {
+		return repository.findAllByUtenteCreatore_IdIs(user.getId());
+	}
+
+
 }
