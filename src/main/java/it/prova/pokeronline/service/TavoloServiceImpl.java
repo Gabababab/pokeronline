@@ -1,5 +1,6 @@
 package it.prova.pokeronline.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,7 @@ public class TavoloServiceImpl implements TavoloService{
 
 	@Transactional
 	public void inserisciNuovo(Tavolo tavoloInstance) {
+		tavoloInstance.setDateCreated(new Date());
 		repository.save(tavoloInstance);
 	}
 
