@@ -132,4 +132,28 @@ public class TavoloController {
 
 		return "tavolo/listtavoliutente";
 	}
+	
+	@GetMapping("/edit/{idTavolo}")
+	public String edit(@PathVariable(required = true) Long idTavolo, Model model) {
+		Tavolo tavolo = tavoloService.caricaSingoloElemento(idTavolo);
+		model.addAttribute("update_tavolo_attr", tavolo);
+		return "tavolo/edit";
+	}
+
+	@PostMapping("/saveUpdate")
+	public String saveUpdate(@Valid @ModelAttribute("update_tavolo_attr") TavoloDTO tavoloDTO, BindingResult result,
+			RedirectAttributes redirectAttrs, HttpServletRequest request) {
+
+		if (result.hasErrors())
+			return "tavolo/edit";
+
+		Tavolo tavolo = tavoloService.caricaSingoloElemento(tavoloDTO.getId());
+		tavoloDTO.setUtentiGiocatori(tavolo.getUtenti());
+		tavoloDTO.setUtenteCreatore(UtenteDTO.buildUtenteDTOFromModel(tavolo.getUtenteCreatore()));
+
+		tavoloService.inserisciNuovo(tavoloDTO.buildTavoloModel());
+
+		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		return "redirect:/tavolo/listTavoliUtente";
+	}
 }
