@@ -109,6 +109,13 @@
 								value="${search_tavolo_attr.creditoMinimo }">
 						</div>
 
+						<div class="col-md-6">
+							<label for="esperienzaMinima" class="form-label">Eseperienza minima:</label> <input type="text" name="esperienzaMinima"
+								id="esperienzaMinima" class="form-control "
+								placeholder="Inserire puntata minima"
+								value="${search_tavolo_attr.esperienzaMinima }">
+						</div>
+
 
 						<div class="col-12">
 							<button type="submit" name="submit" value="submit" id="submit"

@@ -11,6 +11,7 @@ import javax.persistence.TypedQuery;
 
 import org.apache.commons.lang3.StringUtils;
 
+import it.prova.pokeronline.dto.TavoloDTO;
 import it.prova.pokeronline.model.Tavolo;
 import it.prova.pokeronline.model.Utente;
 
@@ -20,12 +21,12 @@ public class CustomTavoloRepositoryImpl implements CustomTavoloRepository {
 	private EntityManager entityManager;
 
 	@Override
-	public List<Tavolo> findMieiTavoliByExample(Tavolo example) {
+	public List<Tavolo> findMieiTavoliByExample(TavoloDTO example) {
 		Map<String, Object> paramaterMap = new HashMap<String, Object>();
 		List<String> whereClauses = new ArrayList<String>();
 
 		StringBuilder queryBuilder = new StringBuilder(
-				"select distinct t from Tavolo t join fetch t.utenteCreatore uc join fetch where t.id = t.id");
+				"select distinct t from Tavolo t join fetch t.utenteCreatore uc where t.id = t.id");
 
 		if (StringUtils.isNotEmpty(example.getDenominazione())) {
 			whereClauses.add(" t.denominazione  like :denominazione ");
