@@ -24,7 +24,6 @@ public class CustomTavoloRepositoryImpl implements CustomTavoloRepository {
 	public List<Tavolo> findByExample(TavoloDTO example) {
 		Map<String, Object> paramaterMap = new HashMap<String, Object>();
 		List<String> whereClauses = new ArrayList<String>();
-		String gioc = "";
 
 		StringBuilder queryBuilder = new StringBuilder(
 				"select distinct t from Tavolo t join fetch t.utenteCreatore uc where t.id =t.id");
@@ -37,11 +36,11 @@ public class CustomTavoloRepositoryImpl implements CustomTavoloRepository {
 			whereClauses.add(" t.dateCreated >= :dateCreated ");
 			paramaterMap.put("dateCreated", example.getDateCreated());
 		}
-		if (example.getCreditoMinimo() !=null) {
+		if (example.getCreditoMinimo() != null) {
 			whereClauses.add(" t.creditoMinimo >= :credito");
 			paramaterMap.put("credito", example.getCreditoMinimo());
 		}
-		if (example.getEsperienzaMinima() !=null ) {
+		if (example.getEsperienzaMinima() != null) {
 			whereClauses.add(" t.esperienzaMinima >= :exp");
 			paramaterMap.put("exp", example.getEsperienzaMinima());
 		}
@@ -50,21 +49,16 @@ public class CustomTavoloRepositoryImpl implements CustomTavoloRepository {
 			paramaterMap.put("idUtenteCreatore", example.getUtenteCreatore().getId());
 		}
 
-//		if (example.getUtentiGiocatori() != null && example.getUtentiGiocatori().size() > 0) {
-//			int i = 0;
-//			for (Utente giocatore : example.getUtentiGiocatori()) {
-//				if (i == 0)
-//					gioc += " g.id = " + giocatore.getId();
-//				else
-//					gioc += " g.id = " + giocatore.getId();
-//				i++;
+//		if (example.getGiocatoreCercato() != null) {
+//			whereClauses.add("g.id = :idGiocatore");
+//			for (Utente item : example.getUtentiGiocatori()) {
+//				if (item.getId() == example.getGiocatoreCercato().getId())
+//					paramaterMap.put("idGiocatore", item.getId());
 //			}
 //		}
 
 		queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");
 		queryBuilder.append(StringUtils.join(whereClauses, " and "));
-//		if (example.getUtentiGiocatori() != null)
-//			queryBuilder.append(" and " + gioc);
 		TypedQuery<Tavolo> typedQuery = entityManager.createQuery(queryBuilder.toString(), Tavolo.class);
 
 		for (String key : paramaterMap.keySet()) {
@@ -103,7 +97,7 @@ public class CustomTavoloRepositoryImpl implements CustomTavoloRepository {
 
 		queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");
 		queryBuilder.append(StringUtils.join(whereClauses, " and "));
-		
+
 		TypedQuery<Tavolo> typedQuery = entityManager.createQuery(queryBuilder.toString(), Tavolo.class);
 
 		for (String key : paramaterMap.keySet()) {

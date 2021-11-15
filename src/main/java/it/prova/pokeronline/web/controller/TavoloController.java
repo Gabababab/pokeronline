@@ -13,8 +13,10 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -106,4 +108,28 @@ public class TavoloController {
 		return "redirect:/tavolo";
 	}
 
+	@GetMapping("/delete/{idTavolo}")
+	public String delete(@PathVariable(required = true) Long idTavolo, Model model) {
+
+		Tavolo tavolo = tavoloService.caricaSingoloElemento(idTavolo);
+		model.addAttribute("delete_tavolo_attr", tavolo);
+		return "tavolo/delete";
+	}
+
+	@PostMapping("/savedelete")
+	public String salvadelete(@RequestParam Long idTavolo, Model model, RedirectAttributes redirectAttrs,
+			HttpServletRequest request) {
+
+		if (tavoloService.caricaSingoloTavoloConGiocatori(idTavolo).getUtenti().size() == 0) {
+			tavoloService.rimuoviById(idTavolo);
+			request.setAttribute("successMessage", "Operazione eseguita correttamente");
+		} else
+			request.setAttribute("errorMessage", "Ci sono ancora giocatori che stanno giocando");
+
+		List<Tavolo> tavoli = tavoloService
+				.listAllTavoliUtente(utenteService.findByUsername(request.getUserPrincipal().getName()));
+		model.addAttribute("tavolo_list_attribute", tavoli);
+
+		return "tavolo/listtavoliutente";
+	}
 }

@@ -29,10 +29,10 @@ public class TavoloServiceImpl implements TavoloService{
 		return repository.findById(id).orElse(null);
 	}
 	
-//	@Transactional(readOnly = true)
-//	public Tavolo caricaSingoloTavoloConGiocatori(Long id) {
-//		return repository.findByIdConGiocatori(id).orElse(null);
-//	}
+	@Transactional(readOnly = true)
+	public Tavolo caricaSingoloTavoloConGiocatori(Long id) {
+		return repository.findByIdConGiocatori(id).orElse(null);
+	}
 
 	@Transactional
 	public void aggiorna(Tavolo tavoloInstance) {
@@ -48,6 +48,11 @@ public class TavoloServiceImpl implements TavoloService{
 	@Transactional
 	public void rimuovi(Tavolo tavoloInstance) {
 		repository.delete(tavoloInstance);
+	}
+	
+	@Transactional
+	public void rimuoviById(Long id) {
+		repository.deleteById(id);
 	}
 
 	@Transactional(readOnly = true)
