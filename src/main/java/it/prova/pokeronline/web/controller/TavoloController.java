@@ -57,13 +57,6 @@ public class TavoloController {
 	@PostMapping("/list")
 	public String listTavoli(TavoloDTO tavoloExample, ModelMap model, HttpServletRequest request) {
 		
-//		Utente utente=utenteService.findByUsername(request.getUserPrincipal().getName());
-		
-//		if(tavoloExample.getEsperienzaMinima()==null)
-//			tavoloExample.setEsperienzaMinima(0);
-//		
-//		if(tavoloExample.getCreditoMinimo()==null)
-//			tavoloExample.setEsperienzaMinima(0);
 		
 		List<Tavolo> tavoli = tavoloService.findByExample(tavoloExample);
 //		System.out.println(tavoli.get(0).getDenominazione());
@@ -151,7 +144,7 @@ public class TavoloController {
 		tavoloDTO.setUtentiGiocatori(tavolo.getUtenti());
 		tavoloDTO.setUtenteCreatore(UtenteDTO.buildUtenteDTOFromModel(tavolo.getUtenteCreatore()));
 
-		tavoloService.inserisciNuovo(tavoloDTO.buildTavoloModel());
+		tavoloService.aggiorna(tavoloDTO.buildTavoloModel());
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/tavolo/listTavoliUtente";

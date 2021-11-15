@@ -114,8 +114,8 @@
 								tavolo:</label> <input class="form-control " type="text"
 								id="utenteCreatoreSearchInput" name="utenteCreatoreInput"
 								value="${search_tavolo_attr.utenteCreatore.nome}${search_tavolo_attr.utenteCreatore.cognome}">
-							<input type="hidden" name="idUtenteCreatore"
-								id="utenteCreatoreId"
+							<input type="hidden" name="utenteCreatore.id"
+								id="utenteCreatoreSearchInputId"
 								value="${search_tavolo_attr.utenteCreatore.id}">
 						</div>
 
@@ -124,7 +124,7 @@
 							<input class="form-control " type="text"
 								id="giocatoriSearchInput" name="giocatoriInput"
 								value="${search_tavolo_attr.giocatoreCercato.nome}"> <input
-								type="hidden" name="idGiocatori" id="giocatoriId"
+								type="hidden" name="giocatoreCercato.id" id="giocatoriSearchInput"
 								value="${search_tavolo_attr.giocatoreCercato.id}">
 						</div>
 
