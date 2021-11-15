@@ -72,7 +72,7 @@
 									class="form-control ${status.error ? 'is-invalid' : ''}"
 									name="esperienzaMinima" id="esperienzaMinima"
 									placeholder="Inserire esperienza minima"
-									value="${insert_film_attr.esperienzaMinima }">
+									value="${insert_film_attr.esperienzaMinima}">
 							</spring:bind>
 							<form:errors path="esperienzaMinima" cssClass="error_field" />
 						</div>
@@ -84,7 +84,7 @@
 									class="form-control ${status.error ? 'is-invalid' : ''}"
 									name="creditoMinimo" id="creditoMinimo"
 									placeholder="Inserire il credito minimo"
-									value="${insert_film_attr.creditoMinimo }">
+									value="${insert_film_attr.creditoMinimo}">
 							</spring:bind>
 							<form:errors path="creditoMinimo" cssClass="error_field" />
 						</div>

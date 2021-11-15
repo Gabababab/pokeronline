@@ -46,7 +46,7 @@
 			                         	<th>Denominazione</th>
 				                        <th>Data Creazione</th>
 				                        <th>Esperienza minima</th>
-				                        <th>Cifra minima</th>
+				                        <th>Credito minimo</th>
 				                        <th>Azioni</th>
 				                    </tr>
 				                </thead>
@@ -54,14 +54,17 @@
 				                	<c:forEach items="${tavolo_list_attribute }" var="tavoloItem">
 										<tr>
 											<td>${tavoloItem.denominazione }</td>
-											<td><fmt:formatDate type = "date" value = "${tavoloItem.dataCreazione }" /></td>
-											<td>${tavoloItem.esperienzaMin }</td>
-											<td>${tavoloItem.cifraMinima }</td>
-											<td>
-												<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/tavolo/show/${tavoloItem.id }">Visualizza</a>
-												<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/tavolo/edit/${tavoloItem.id }">Edit</a>
-												<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath}/tavolo/delete/${tavoloItem.id }">Delete</a>
-											</td>
+											<td><fmt:formatDate type = "date" value = "${tavoloItem.dateCreated }" /></td>
+											<td>${tavoloItem.esperienzaMinima }</td>
+											<td>${tavoloItem.creditoMinimo }</td>
+											<c:if test="${userInfo.isSpecial() || userInfo.isAdmin()}">
+												<td>
+													<a class="btn  btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/tavolo/show/${tavoloItem.id }">Visualizza</a>
+													<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/tavolo/edit/${tavoloItem.id }">Edit</a>
+													<a class="btn btn-outline-danger btn-sm" href="${pageContext.request.contextPath}/tavolo/delete/${tavoloItem.id }">Delete</a>
+												</td>
+											</c:if>
+											
 										</tr>
 									</c:forEach>
 				                </tbody>

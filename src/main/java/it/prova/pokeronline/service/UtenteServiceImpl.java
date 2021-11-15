@@ -124,4 +124,9 @@ public class UtenteServiceImpl implements UtenteService{
 	public Utente findByUsername(String username) {
 		return repository.findByUsername(username).orElse(null);
 	}
+
+	@Transactional
+	public List<Utente> cercaByCognomeENomeILike(String term) {
+		return repository.findByCognomeIgnoreCaseContainingOrNomeIgnoreCaseContainingOrderByNomeAsc(term, term);
+	}
 }

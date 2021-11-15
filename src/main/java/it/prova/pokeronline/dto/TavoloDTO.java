@@ -28,7 +28,6 @@ public class TavoloDTO {
 	@Min(0)
 	private Integer creditoMinimo;
 
-	@NotNull(message = "{utentecreatore.notnull}")
 	private UtenteDTO utenteCreatore;
 
 	private Date dateCreated;
@@ -41,24 +40,24 @@ public class TavoloDTO {
 		super();
 	}
 
-	public TavoloDTO(Long id, String denominazione, Date dataCreazione, Integer esperienzaMinima, Integer creditoMinimo,
+	public TavoloDTO(Long id, String denominazione, Date dateCreated, Integer esperienzaMinima, Integer creditoMinimo,
 			UtenteDTO utenteCreatore, Set<Utente> giocatori) {
 		super();
 		this.id = id;
 		this.denominazione = denominazione;
-		this.dateCreated = dataCreazione;
+		this.dateCreated = dateCreated;
 		this.esperienzaMinima = esperienzaMinima;
 		this.creditoMinimo = creditoMinimo;
 		this.utenteCreatore = utenteCreatore;
 		this.utentiGiocatori = giocatori;
 	}
 
-	public TavoloDTO(Long id, String denominazione, Date dataCreazione, Integer esperienzaMinima,
+	public TavoloDTO(Long id, String denominazione, Date dateCreated, Integer esperienzaMinima,
 			Integer creditoMinimo) {
 		super();
 		this.id = id;
 		this.denominazione = denominazione;
-		this.dateCreated = dataCreazione;
+		this.dateCreated = dateCreated;
 		this.esperienzaMinima = esperienzaMinima;
 		this.creditoMinimo = creditoMinimo;
 	}
@@ -79,10 +78,10 @@ public class TavoloDTO {
 		this.utentiGiocatori = utentiGiocatori;
 	}
 
-	public TavoloDTO(String denominazione, Date dataCreazione, Integer esperienzaMinima, Integer creditoMinimo) {
+	public TavoloDTO(String denominazione, Date dateCreated, Integer esperienzaMinima, Integer creditoMinimo) {
 		super();
 		this.denominazione = denominazione;
-		this.dateCreated = dataCreazione;
+		this.dateCreated = dateCreated;
 		this.esperienzaMinima = esperienzaMinima;
 		this.creditoMinimo = creditoMinimo;
 	}
@@ -165,6 +164,6 @@ public class TavoloDTO {
 
 	public Tavolo buildTavoloModel() {
 		return new Tavolo(this.id, this.denominazione, this.dateCreated, this.esperienzaMinima, this.creditoMinimo,
-				 this.utentiGiocatori, this.utenteCreatore.buildUtenteModel(false));
+				this.utenteCreatore.buildUtenteModel(false));
 	}
 }

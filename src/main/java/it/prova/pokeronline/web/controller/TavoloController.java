@@ -1,6 +1,7 @@
 package it.prova.pokeronline.web.controller;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,19 +44,33 @@ public class TavoloController {
 		return mv;
 	}
 	
+	@PostMapping("/listTavoliUtente")
+	public String listTavoliUtente(TavoloDTO tavoloExample, ModelMap model) {
+		List<Tavolo> tavoli = tavoloService.findMieiTavoliByExample(tavoloExample.buildTavoloModel());
+		for(Tavolo item:tavoli) {
+			System.out.println(item.getDenominazione());
+			System.out.println(item.getCreditoMinimo());
+			System.out.println(item.getEsperienzaMinima());
+			System.out.println(item.getUtenteCreatore().getNome());
+		}
+		model.addAttribute("tavolo_list_attribute", TavoloDTO.createTavoloDTOListFromModelList(tavoli));
+		return "tavolo/list";
+	}
+	
 	@PostMapping("/list")
 	public String listTavoli(TavoloDTO tavoloExample, ModelMap model) {
-		List<Tavolo> tavoli = tavoloService.findByExample(tavoloExample.buildTavoloModel());
+		List<Tavolo> tavoli = tavoloService.listAllElements();
 		model.addAttribute("tavolo_list_attribute", TavoloDTO.createTavoloDTOListFromModelList(tavoli));
 		return "tavolo/list";
 	}
 	
 	@GetMapping("/searchTavoliUtente")
-	public String searchTavoliUtente(Model model, HttpServletRequest request) {
-		List<Tavolo> tavoli = tavoloService.listAllTavoliUtente(utenteService.findByUsername(request.getUserPrincipal().getName()));
-		model.addAttribute("tavolo_list_attribute", tavoli);
-		return "tavolo/list";
+	public String searchTavoliUtente(TavoloDTO tavoloExample ,Model model, HttpServletRequest request) {
+		model.addAttribute("search_tavolo_attr", new TavoloDTO());
+		
+		return "tavolo/searchtavoliutente";
 	}
+	
 	
 	@GetMapping("/search")
 	public String searchTavolo(Model model) {
@@ -87,4 +102,5 @@ public class TavoloController {
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/tavolo/searchTavoliUtente";
 	}
+	
 }

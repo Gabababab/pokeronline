@@ -19,7 +19,7 @@ public interface TavoloService {
 
 	public void rimuovi(Tavolo tavoloInstance);
 
-	public List<Tavolo> findByExample(Tavolo example);
+	public List<Tavolo> findMieiTavoliByExample(Tavolo example);
 	
 	public List<Tavolo> listAllTavoliUtente(Utente user);
 }
