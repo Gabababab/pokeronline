@@ -28,9 +28,9 @@ public class Tavolo {
 	@Column(name = "dateCreated")
 	private Date dateCreated;
 	@Column(name = "esperienzaMinima")
-	private int esperienzaMinima;
+	private Integer esperienzaMinima;
 	@Column(name = "creditoMinimo")
-	private int creditoMinimo;
+	private Integer creditoMinimo;
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "tavolo")
 	private Set<Utente> utenti = new HashSet<Utente>(0);
@@ -60,7 +60,7 @@ public class Tavolo {
 	}
 	
 
-	public Tavolo(Long id, String denominazione, Date dateCreated, int esperienzaMinima, int creditoMinimo,
+	public Tavolo(Long id, String denominazione, Date dateCreated, Integer esperienzaMinima, Integer creditoMinimo,
 			Utente utenteCreatore) {
 		super();
 		this.id = id;
@@ -71,17 +71,6 @@ public class Tavolo {
 		this.utenteCreatore = utenteCreatore;
 	}
 
-	public Tavolo(Long id, String denominazione, Date dateCreated, int esperienzaMinima, int creditoMinimo,
-			Set<Utente> utenti, Utente utenteCreatore) {
-		super();
-		this.id = id;
-		this.denominazione = denominazione;
-		this.dateCreated = dateCreated;
-		this.esperienzaMinima = esperienzaMinima;
-		this.creditoMinimo = creditoMinimo;
-		this.utenti = utenti;
-		this.utenteCreatore = utenteCreatore;
-	}
 
 	public Tavolo(Long id, String denominazione, Date dateCreated, Integer esperienzaMinima, Integer creditoMinimo,
 			Set<Utente> utenti, Utente utenteCreatore) {
@@ -119,19 +108,19 @@ public class Tavolo {
 		this.dateCreated = dateCreated;
 	}
 
-	public int getEsperienzaMinima() {
+	public Integer getEsperienzaMinima() {
 		return esperienzaMinima;
 	}
 
-	public void setEsperienzaMinima(int esperienzaMinima) {
+	public void setEsperienzaMinima(Integer esperienzaMinima) {
 		this.esperienzaMinima = esperienzaMinima;
 	}
 
-	public int getCreditoMinimo() {
+	public Integer getCreditoMinimo() {
 		return creditoMinimo;
 	}
 
-	public void setCreditoMinimo(int creditoMinimo) {
+	public void setCreditoMinimo(Integer creditoMinimo) {
 		this.creditoMinimo = creditoMinimo;
 	}
 

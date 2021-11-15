@@ -22,5 +22,7 @@ public interface TavoloService {
 
 	public List<Tavolo> findMieiTavoliByExample(TavoloDTO example);
 	
+	public List<Tavolo> findByExample(TavoloDTO example);
+	
 	public List<Tavolo> listAllTavoliUtente(Utente user);
 }

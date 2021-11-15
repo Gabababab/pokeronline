@@ -108,7 +108,7 @@
 								placeholder="Inserire puntata minima"
 								value="${search_tavolo_attr.creditoMinimo }">
 						</div>
-
+						
 						<div class="col-md-6">
 							<label for="utenteCreatoreSearchInput" class="form-label">Creatore
 								tavolo:</label> <input class="form-control " type="text"
@@ -206,7 +206,6 @@
 							//quando seleziono la voce nel campo hidden deve valorizzarsi l'id
 							select : function(event, ui) {
 								$('#giocatoriSearchInput').val(ui.item.value);
-								//console.log($('#registaId').val())
 								return false;
 							}
 						});

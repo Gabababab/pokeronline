@@ -21,6 +21,60 @@ public class CustomTavoloRepositoryImpl implements CustomTavoloRepository {
 	private EntityManager entityManager;
 
 	@Override
+	public List<Tavolo> findByExample(TavoloDTO example) {
+		Map<String, Object> paramaterMap = new HashMap<String, Object>();
+		List<String> whereClauses = new ArrayList<String>();
+		String gioc = "";
+
+		StringBuilder queryBuilder = new StringBuilder(
+				"select distinct t from Tavolo t join fetch t.utenteCreatore uc where t.id =t.id");
+
+		if (StringUtils.isNotEmpty(example.getDenominazione())) {
+			whereClauses.add(" t.denominazione  like :denominazione ");
+			paramaterMap.put("denominazione", "%" + example.getDenominazione() + "%");
+		}
+		if (example.getDateCreated() != null) {
+			whereClauses.add(" t.dateCreated >= :dateCreated ");
+			paramaterMap.put("dateCreated", example.getDateCreated());
+		}
+		if (example.getCreditoMinimo() !=null) {
+			whereClauses.add(" t.creditoMinimo >= :credito");
+			paramaterMap.put("credito", example.getCreditoMinimo());
+		}
+		if (example.getEsperienzaMinima() !=null ) {
+			whereClauses.add(" t.esperienzaMinima >= :exp");
+			paramaterMap.put("exp", example.getEsperienzaMinima());
+		}
+		if (example.getUtenteCreatore() != null) {
+			whereClauses.add(" uc.id = :idUtenteCreatore ");
+			paramaterMap.put("idUtenteCreatore", example.getUtenteCreatore().getId());
+		}
+
+//		if (example.getUtentiGiocatori() != null && example.getUtentiGiocatori().size() > 0) {
+//			int i = 0;
+//			for (Utente giocatore : example.getUtentiGiocatori()) {
+//				if (i == 0)
+//					gioc += " g.id = " + giocatore.getId();
+//				else
+//					gioc += " g.id = " + giocatore.getId();
+//				i++;
+//			}
+//		}
+
+		queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");
+		queryBuilder.append(StringUtils.join(whereClauses, " and "));
+//		if (example.getUtentiGiocatori() != null)
+//			queryBuilder.append(" and " + gioc);
+		TypedQuery<Tavolo> typedQuery = entityManager.createQuery(queryBuilder.toString(), Tavolo.class);
+
+		for (String key : paramaterMap.keySet()) {
+			typedQuery.setParameter(key, paramaterMap.get(key));
+		}
+
+		return typedQuery.getResultList();
+	}
+
+	@Override
 	public List<Tavolo> findMieiTavoliByExample(TavoloDTO example) {
 		Map<String, Object> paramaterMap = new HashMap<String, Object>();
 		List<String> whereClauses = new ArrayList<String>();
@@ -32,7 +86,7 @@ public class CustomTavoloRepositoryImpl implements CustomTavoloRepository {
 			whereClauses.add(" t.denominazione  like :denominazione ");
 			paramaterMap.put("denominazione", "%" + example.getDenominazione() + "%");
 		}
-		if (example.getCreditoMinimo() > 0) {
+		if (example.getCreditoMinimo() != null) {
 			whereClauses.add(" t.creditoMinimo >= :credito");
 			paramaterMap.put("credito", example.getCreditoMinimo());
 		}
@@ -40,29 +94,16 @@ public class CustomTavoloRepositoryImpl implements CustomTavoloRepository {
 			whereClauses.add(" t.dateCreated >= :dateCreated ");
 			paramaterMap.put("dateCreated", example.getDateCreated());
 		}
-		if (example.getEsperienzaMinima() > 0) {
+		if (example.getEsperienzaMinima() != null) {
 			whereClauses.add(" t.esperienzaMinima >= :exp");
 			paramaterMap.put("exp", example.getEsperienzaMinima());
 		}
 		whereClauses.add(" uc.id = :idCreatore ");
 		paramaterMap.put("idCreatore", example.getUtenteCreatore().getId());
 
-//		if(example.getUtenti() != null && example.getUtenti().size() > 0) {
-//			int i = 0;
-//			for (Utente giocatoreTmp : example.getUtenti()) {
-//				if(i == 0)
-//					giocatore += " g.id = " + giocatoreTmp.getId();
-//				else
-//					giocatore += " g.id = " + giocatoreTmp.getId();
-//				
-//				i++;
-//			}
-//		}
-
 		queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");
 		queryBuilder.append(StringUtils.join(whereClauses, " and "));
-//		if(example.getUtenti() != null)
-//			queryBuilder.append(" and " + giocatore);
+		
 		TypedQuery<Tavolo> typedQuery = entityManager.createQuery(queryBuilder.toString(), Tavolo.class);
 
 		for (String key : paramaterMap.keySet()) {
@@ -71,4 +112,52 @@ public class CustomTavoloRepositoryImpl implements CustomTavoloRepository {
 
 		return typedQuery.getResultList();
 	}
+
+	@Override
+	public List<Tavolo> findByExampleConCreatore(TavoloDTO example) {
+
+		Map<String, Object> paramaterMap = new HashMap<String, Object>();
+		List<String> whereClauses = new ArrayList<String>();
+
+		if (example.getEsperienzaMinima() == null)
+			example.setEsperienzaMinima(null);
+
+		if (example.getCreditoMinimo() == null)
+			example.setCreditoMinimo(null);
+
+		StringBuilder queryBuilder = new StringBuilder(
+				"select t from Tavolo t join fetch t.utenteCreatore uc where t.id = t.id");
+
+		if (StringUtils.isNotEmpty(example.getDenominazione())) {
+			whereClauses.add(" t.denominazione  like :denominazione ");
+			paramaterMap.put("denominazione", "%" + example.getDenominazione() + "%");
+		}
+		if (example.getDateCreated() != null) {
+			whereClauses.add(" t.dateCreated >= :dataCreazione ");
+			paramaterMap.put("dataCreazione", example.getDateCreated());
+		}
+		if (example.getEsperienzaMinima() > 0) {
+			whereClauses.add(" t.esperienzaMinima >= :esperienzaMin ");
+			paramaterMap.put("esperienzaMin", example.getEsperienzaMinima());
+		}
+		if (example.getCreditoMinimo() > 0) {
+			whereClauses.add(" t.creditoMinimo >= :cifraMinima ");
+			paramaterMap.put("cifraMinima", example.getCreditoMinimo());
+		}
+		if (example.getUtenteCreatore() != null && example.getUtenteCreatore().getId() != null) {
+			whereClauses.add(" uc.id = :idUtenteCreatore ");
+			paramaterMap.put("idUtenteCreatore", example.getUtenteCreatore().getId());
+		}
+
+		queryBuilder.append(!whereClauses.isEmpty() ? " and " : "");
+		queryBuilder.append(StringUtils.join(whereClauses, " and "));
+		TypedQuery<Tavolo> typedQuery = entityManager.createQuery(queryBuilder.toString(), Tavolo.class);
+
+		for (String key : paramaterMap.keySet()) {
+			typedQuery.setParameter(key, paramaterMap.get(key));
+		}
+
+		return typedQuery.getResultList();
+	}
+
 }

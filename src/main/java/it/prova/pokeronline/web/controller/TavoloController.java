@@ -1,7 +1,6 @@
 package it.prova.pokeronline.web.controller;
 
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,8 +53,18 @@ public class TavoloController {
 	}
 
 	@PostMapping("/list")
-	public String listTavoli(TavoloDTO tavoloExample, ModelMap model) {
-		List<Tavolo> tavoli = tavoloService.listAllElements();
+	public String listTavoli(TavoloDTO tavoloExample, ModelMap model, HttpServletRequest request) {
+		
+//		Utente utente=utenteService.findByUsername(request.getUserPrincipal().getName());
+		
+//		if(tavoloExample.getEsperienzaMinima()==null)
+//			tavoloExample.setEsperienzaMinima(0);
+//		
+//		if(tavoloExample.getCreditoMinimo()==null)
+//			tavoloExample.setEsperienzaMinima(0);
+		
+		List<Tavolo> tavoli = tavoloService.findByExample(tavoloExample);
+//		System.out.println(tavoli.get(0).getDenominazione());
 		model.addAttribute("tavolo_list_attribute", TavoloDTO.createTavoloDTOListFromModelList(tavoli));
 		return "tavolo/list";
 	}
@@ -94,7 +103,7 @@ public class TavoloController {
 		tavoloService.inserisciNuovo(tavoloDTO.buildTavoloModel());
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
-		return "redirect:/tavolo/searchTavoliUtente";
+		return "redirect:/tavolo";
 	}
 
 }

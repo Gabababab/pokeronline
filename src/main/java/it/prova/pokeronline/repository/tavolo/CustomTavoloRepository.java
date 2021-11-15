@@ -8,4 +8,8 @@ import it.prova.pokeronline.model.Tavolo;
 public interface CustomTavoloRepository {
 
 	List<Tavolo> findMieiTavoliByExample(TavoloDTO example);
+
+	List<Tavolo> findByExampleConCreatore(TavoloDTO example);
+
+	List<Tavolo> findByExample(TavoloDTO example);
 }

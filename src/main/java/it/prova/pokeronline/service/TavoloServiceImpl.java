@@ -54,6 +54,11 @@ public class TavoloServiceImpl implements TavoloService{
 	public List<Tavolo> findMieiTavoliByExample(TavoloDTO example) {
 		return repository.findMieiTavoliByExample(example);
 	}
+	
+	@Transactional(readOnly = true)
+	public List<Tavolo> findByExample(TavoloDTO example) {
+		return repository.findByExample(example);
+	}
 
 	@Override
 	public Tavolo caricaSingoloElementoEager(Long id) {
