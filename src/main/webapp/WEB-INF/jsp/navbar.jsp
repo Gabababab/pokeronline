@@ -65,9 +65,10 @@
 										Password</a> <a class="dropdown-item"
 										href="${pageContext.request.contextPath}/logout">Logout</a> <a
 										class="dropdown-item"
-										href="${pageContext.request.contextPath}/tavolo/searchTavoliUtente">Gestione Tavoli Creati</a>
+										href="${pageContext.request.contextPath}/tavolo/searchTavoliUtente">Gestione
+										Tavoli Creati</a> <a class="dropdown-item"
+										href="${pageContext.request.contextPath}/utente/setricarica">Ricarica Conto</a>
 									<a class="dropdown-item" href="">Placeholder</a> <a
-										class="dropdown-item" href="">Placeholder</a> <a
 										class="dropdown-item" href="">Placeholder</a>
 								</div></li>
 						</sec:authorize>

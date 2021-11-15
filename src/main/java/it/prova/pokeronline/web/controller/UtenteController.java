@@ -189,4 +189,18 @@ public class UtenteController {
 		utenteService.changeUserAbilitation(idUtente);
 		return "redirect:/utente";
 	}
+	
+	@GetMapping("/setricarica")
+	public String ricaricaCredito(Model model) {
+		return "utente/ricaricaconto";		
+	}
+	
+	@PostMapping("/ricaricaconto")
+	public String addCredito(Model model, HttpServletRequest request) {
+		Integer creditoDaAggiungere = Integer.parseInt(request.getParameter("ricaricaconto"));
+		Utente utenteInSessione = utenteService.findByUsername(request.getUserPrincipal().getName());
+
+		utenteService.addCredito(utenteInSessione, creditoDaAggiungere);		
+		return "index";		
+	}
 }
