@@ -36,4 +36,6 @@ public interface UtenteService {
 	
 	public void addCredito(Utente utenteInstance, Integer creditoDaAggiungere);
 
+	public Utente findByUsernameConTavolo(String name);
+
 }

@@ -124,7 +124,7 @@
 							<input class="form-control " type="text"
 								id="giocatoriSearchInput" name="giocatoriInput"
 								value="${search_tavolo_attr.giocatoreCercato.nome}"> <input
-								type="hidden" name="giocatoreCercato.id" id="giocatoriSearchInput"
+								type="hidden" name="giocatoreCercato.id" id="giocatoriSearchInputId"
 								value="${search_tavolo_attr.giocatoreCercato.id}">
 						</div>
 

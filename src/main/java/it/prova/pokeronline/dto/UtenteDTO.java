@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 import it.prova.pokeronline.dto.UtenteDTO;
 import it.prova.pokeronline.model.Ruolo;
 import it.prova.pokeronline.model.StatoUtente;
+import it.prova.pokeronline.model.Tavolo;
 import it.prova.pokeronline.model.Utente;
 import it.prova.pokeronline.validation.ValidationNoPassword;
 import it.prova.pokeronline.validation.ValidationWithPassword;
@@ -153,5 +154,7 @@ public class UtenteDTO {
 				utenteModel.getCognome(), utenteModel.getStato(),
 				RuoloDTO.createRuoloDTOListFromModelSet(utenteModel.getRuoli()));
 	}
+	
+
 
 }

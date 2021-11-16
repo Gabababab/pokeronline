@@ -56,11 +56,11 @@ public class TavoloController {
 
 	@PostMapping("/list")
 	public String listTavoli(TavoloDTO tavoloExample, ModelMap model, HttpServletRequest request) {
-		
-		
+
 		List<Tavolo> tavoli = tavoloService.findByExample(tavoloExample);
-//		System.out.println(tavoli.get(0).getDenominazione());
+		Utente utente = utenteService.findByUsername(request.getUserPrincipal().getName());
 		model.addAttribute("tavolo_list_attribute", TavoloDTO.createTavoloDTOListFromModelList(tavoli));
+		model.addAttribute("utente_attribute", utente);
 		return "tavolo/list";
 	}
 
@@ -125,7 +125,7 @@ public class TavoloController {
 
 		return "tavolo/listtavoliutente";
 	}
-	
+
 	@GetMapping("/edit/{idTavolo}")
 	public String edit(@PathVariable(required = true) Long idTavolo, Model model) {
 		Tavolo tavolo = tavoloService.caricaSingoloElemento(idTavolo);
@@ -148,5 +148,73 @@ public class TavoloController {
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/tavolo/listTavoliUtente";
+	}
+
+	@GetMapping("/gioca/{idTavolo}")
+	public String gioca(@PathVariable(required = true) Long idTavolo, Model model, Principal principal) {
+
+		Tavolo tavoloDiGioco = tavoloService.caricaSingoloTavoloConGiocatori(idTavolo);
+		Utente utenteInSessione = utenteService.findByUsername(principal.getName());
+
+		utenteInSessione.setTavolo(tavoloDiGioco);
+		
+		utenteService.aggiorna(utenteInSessione);
+		model.addAttribute("tavolo_gioco_attr", tavoloDiGioco);
+		model.addAttribute("utente_gioco_attr", utenteInSessione);
+		return "tavolo/gioco";
+	}
+
+	@GetMapping("/eseguigioco/{idTavolo}")
+	public String eseguiGioco(@PathVariable(required = true) Long idTavolo, Model model, Principal principal) {
+
+		Utente utenteInSessione = utenteService.findByUsername(principal.getName());
+		Tavolo tavoloGioco = tavoloService.caricaSingoloTavoloConGiocatori(idTavolo);
+
+		double segno = Math.random();
+		int random = (int) Math.round(Math.random() * 1000);
+		
+		if (segno >= 0.5) {
+			utenteInSessione.setCreditoAccumulato(utenteInSessione.getCreditoAccumulato() + random);
+			model.addAttribute("esito", "Hai vinto " + random + " euro");
+		} else {
+			utenteInSessione.setCreditoAccumulato(utenteInSessione.getCreditoAccumulato() - random);
+			model.addAttribute("esito", "Hai perso " + random + " euro");
+		}
+
+		utenteService.aggiorna(utenteInSessione);
+
+		model.addAttribute("tavolo_gioco_attr", tavoloGioco);
+		model.addAttribute("utente_gioco_attr", utenteInSessione);
+		return "tavolo/gioco";
+	}
+
+	@GetMapping("/lasciatavolo")
+	public String lascia(Model model, HttpServletRequest request) {
+
+		Utente utenteSessione = utenteService.findByUsername(request.getUserPrincipal().getName());
+
+		utenteSessione.setTavolo(null);
+		utenteSessione.setEsperienzaAccumulata(utenteSessione.getEsperienzaAccumulata() + 1);
+
+		utenteService.aggiorna(utenteSessione);
+
+		return "redirect:/home";
+	}
+	
+	@GetMapping("/lastgame")
+	public String gioca(Model model, RedirectAttributes redirectAttrs,Principal principal) {
+		
+		Utente utenteSessione = utenteService.findByUsernameConTavolo(principal.getName());
+		
+		if(utenteSessione.getTavolo() == null || utenteSessione.getTavolo().getId() == null) {
+			redirectAttrs.addFlashAttribute("errorMessage", "Non stai giocando a nessun tavolo, inizia una partita.");
+			return "redirect:/home";
+		}
+		
+		Tavolo tavoloGioco = tavoloService.caricaSingoloTavoloConGiocatori(utenteSessione.getTavolo().getId());
+		
+		model.addAttribute("tavolo_gioco_attr", tavoloGioco);
+		model.addAttribute("utente_gioco_attr", utenteSessione);
+		return "tavolo/gioco";
 	}
 }

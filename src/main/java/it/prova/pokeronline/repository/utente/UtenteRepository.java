@@ -25,4 +25,7 @@ public interface UtenteRepository extends CrudRepository<Utente, Long>, CustomUt
 	Utente findByUsernameAndPasswordAndStato(String username,String password, StatoUtente stato);
 	
 	List<Utente> findByCognomeIgnoreCaseContainingOrNomeIgnoreCaseContainingOrderByNomeAsc(String cognome, String nome);
+
+	@Query("from Utente u left join fetch u.tavolo where u.username like ?1")
+	Utente findByUsernameConTavolo(String username);
 }

@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "utente")
 public class Utente {
@@ -50,11 +49,11 @@ public class Utente {
 	@ManyToMany
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
 	private Set<Ruolo> ruoli = new HashSet<>(0);
-	
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "tavolo_id")
 	private Tavolo tavolo;
-	
+
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "utenteCreatore")
 	private Set<Tavolo> tavoliCreati = new HashSet<Tavolo>();
 
@@ -162,6 +161,22 @@ public class Utente {
 		return stato;
 	}
 
+	public Tavolo getTavolo() {
+		return tavolo;
+	}
+
+	public void setTavolo(Tavolo tavolo) {
+		this.tavolo = tavolo;
+	}
+
+	public Set<Tavolo> getTavoliCreati() {
+		return tavoliCreati;
+	}
+
+	public void setTavoliCreati(Set<Tavolo> tavoliCreati) {
+		this.tavoliCreati = tavoliCreati;
+	}
+
 	public void setStato(StatoUtente stato) {
 		this.stato = stato;
 	}
@@ -173,7 +188,7 @@ public class Utente {
 		}
 		return false;
 	}
-	
+
 	public boolean isSpecial() {
 		for (Ruolo ruoloItem : ruoli) {
 			if (ruoloItem.getCodice().equals(Ruolo.ROLE_SPECIAL_PLAYER))
@@ -188,6 +203,11 @@ public class Utente {
 
 	public boolean isDisabilitato() {
 		return this.stato != null && this.stato.equals(StatoUtente.DISABILITATO);
+	}
+	
+	@Override
+	public String toString() {
+		return "<b>Giocatore:</b> " + cognome + " " + nome + " <b>Esperienza:</b> " + esperienzaAccumulata + " <b>Credito:</b> " + creditoAccumulato;
 	}
 
 }

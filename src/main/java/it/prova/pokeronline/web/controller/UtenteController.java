@@ -1,5 +1,6 @@
 package it.prova.pokeronline.web.controller;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -191,7 +192,9 @@ public class UtenteController {
 	}
 	
 	@GetMapping("/setricarica")
-	public String ricaricaCredito(Model model) {
+	public String ricaricaCredito(Model model, Principal principal) {
+		Utente utenteSessione=utenteService.findByUsername(principal.getName());
+		model.addAttribute("utente_attribute", utenteSessione);
 		return "utente/ricaricaconto";		
 	}
 	
@@ -202,5 +205,12 @@ public class UtenteController {
 
 		utenteService.addCredito(utenteInSessione, creditoDaAggiungere);		
 		return "index";		
+	}
+	
+	@GetMapping("/formregistrazione")
+	public String formRegistrazione(Model model, HttpServletRequest request) {
+		
+		model.addAttribute("utente_signup_attribute", new UtenteDTO());
+		return "utente/registrazione";		
 	}
 }

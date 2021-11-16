@@ -136,7 +136,12 @@ public class UtenteServiceImpl implements UtenteService{
 		if(utenteReloaded == null)
 			throw new RuntimeException("Elemento non trovato");
 		
-		utenteReloaded.setCreditoAccumulato(utenteInstance.getCreditoAccumulato() + creditoDaAggiungere);
+		utenteReloaded.setCreditoAccumulato(utenteReloaded.getCreditoAccumulato() + creditoDaAggiungere);
 		repository.save(utenteReloaded);
+	}
+
+	@Transactional(readOnly = true)
+	public Utente findByUsernameConTavolo(String username) {
+		return repository.findByUsernameConTavolo(username);
 	}
 }

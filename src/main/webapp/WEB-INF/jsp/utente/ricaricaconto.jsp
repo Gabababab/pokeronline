@@ -42,7 +42,7 @@
 
 				    <div class='card-header'>
 				        <h5>Aggiungi Credito</h5> 
-				        <h5>Credito attuale: ${userInfo.creditoAccumulato}</h5>
+				        <h5>Credito attuale: ${utente_attribute.creditoAccumulato}</h5>
 				    </div>
 				    <div class='card-body'>
 		
