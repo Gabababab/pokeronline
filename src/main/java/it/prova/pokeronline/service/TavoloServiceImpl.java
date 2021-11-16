@@ -76,5 +76,10 @@ public class TavoloServiceImpl implements TavoloService{
 		return repository.findAllByUtenteCreatore_IdIs(user.getId());
 	}
 
+	@Override
+	public List<Tavolo> findByExampleGestioneAdmin(TavoloDTO tavoloExample) {
+		return repository.findByExampleGestioneAdmin(tavoloExample);
+	}
+
 
 }

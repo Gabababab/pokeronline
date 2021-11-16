@@ -29,4 +29,6 @@ public interface TavoloService {
 	public List<Tavolo> listAllTavoliUtente(Utente user);
 
 	public Tavolo caricaSingoloTavoloConGiocatori(Long idTavolo);
+
+	public List<Tavolo> findByExampleGestioneAdmin(TavoloDTO tavoloExample);
 }

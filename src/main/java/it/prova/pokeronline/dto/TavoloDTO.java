@@ -28,11 +28,11 @@ public class TavoloDTO {
 	@Min(0)
 	private Integer creditoMinimo;
 
-	private UtenteDTO utenteCreatore;
+	private Long utenteCreatore;
 
 	private Date dateCreated;
 
-	private UtenteDTO giocatoreCercato;
+	private Long giocatoreCercato;
 
 	private Set<Utente> utentiGiocatori = new HashSet<Utente>();
 
@@ -41,7 +41,7 @@ public class TavoloDTO {
 	}
 
 	public TavoloDTO(Long id, String denominazione, Date dateCreated, Integer esperienzaMinima, Integer creditoMinimo,
-			UtenteDTO utenteCreatore, Set<Utente> giocatori) {
+			Long utenteCreatore, Set<Utente> utentiGiocatori) {
 		super();
 		this.id = id;
 		this.denominazione = denominazione;
@@ -49,41 +49,17 @@ public class TavoloDTO {
 		this.esperienzaMinima = esperienzaMinima;
 		this.creditoMinimo = creditoMinimo;
 		this.utenteCreatore = utenteCreatore;
-		this.utentiGiocatori = giocatori;
-	}
-
-	public TavoloDTO(Long id, String denominazione, Date dateCreated, Integer esperienzaMinima,
-			Integer creditoMinimo) {
-		super();
-		this.id = id;
-		this.denominazione = denominazione;
-		this.dateCreated = dateCreated;
-		this.esperienzaMinima = esperienzaMinima;
-		this.creditoMinimo = creditoMinimo;
-	}
-
-	public TavoloDTO(Long id, @NotBlank(message = "{denominazione.notblank}") String denominazione,
-			@NotNull(message = "{esperienzaMinima.notblank}") @Min(0) Integer esperienzaMinima,
-			@NotNull(message = "{creditoMinimo.notnull}") @Min(0) Integer creditoMinimo,
-			@NotNull(message = "{utentecreatore.notnull}") UtenteDTO utenteCreatore, Date dateCreated,
-			Set<Utente> utentiGiocatori) {
-		super();
-		this.id = id;
-		this.denominazione = denominazione;
-		this.esperienzaMinima = esperienzaMinima;
-		this.creditoMinimo = creditoMinimo;
-		this.utenteCreatore = utenteCreatore;
-		this.dateCreated = dateCreated;
-		this.giocatoreCercato = giocatoreCercato;
 		this.utentiGiocatori = utentiGiocatori;
 	}
 
-	public TavoloDTO(String denominazione, Date dateCreated, Integer esperienzaMinima, Integer creditoMinimo) {
+	public TavoloDTO(@NotBlank(message = "{denominazione.notblank}") String denominazione,
+			@NotNull(message = "{esperienzaMinima.notblank}") @Min(0) Integer esperienzaMinima,
+			@NotNull(message = "{creditoMinimo.notnull}") @Min(0) Integer creditoMinimo, Date dateCreated) {
 		super();
 		this.denominazione = denominazione;
-		this.dateCreated = dateCreated;
 		this.esperienzaMinima = esperienzaMinima;
 		this.creditoMinimo = creditoMinimo;
+		this.dateCreated = dateCreated;
 	}
 
 	public Long getId() {
@@ -102,20 +78,20 @@ public class TavoloDTO {
 		this.denominazione = denominazione;
 	}
 
-	public UtenteDTO getGiocatoreCercato() {
-		return giocatoreCercato;
-	}
-
-	public void setGiocatoreCercato(UtenteDTO giocatoreCercato) {
-		this.giocatoreCercato = giocatoreCercato;
-	}
-
 	public Integer getEsperienzaMinima() {
 		return esperienzaMinima;
 	}
 
 	public void setEsperienzaMinima(Integer esperienzaMinima) {
 		this.esperienzaMinima = esperienzaMinima;
+	}
+
+	public Integer getCreditoMinimo() {
+		return creditoMinimo;
+	}
+
+	public void setCreditoMinimo(Integer creditoMinimo) {
+		this.creditoMinimo = creditoMinimo;
 	}
 
 	public Date getDateCreated() {
@@ -134,26 +110,34 @@ public class TavoloDTO {
 		this.utentiGiocatori = utentiGiocatori;
 	}
 
-	public Integer getCreditoMinimo() {
-		return creditoMinimo;
-	}
-
-	public void setCreditoMinimo(Integer cifraMinima) {
-		this.creditoMinimo = cifraMinima;
-	}
-
-	public UtenteDTO getUtenteCreatore() {
+	public Long getUtenteCreatore() {
 		return utenteCreatore;
 	}
 
-	public void setUtenteCreatore(UtenteDTO utenteCreatore) {
+	public void setUtenteCreatore(Long utenteCreatore) {
 		this.utenteCreatore = utenteCreatore;
+	}
+
+	public Set<Utente> getGiocatori() {
+		return utentiGiocatori;
+	}
+
+	public void setGiocatori(Set<Utente> giocatori) {
+		this.utentiGiocatori = giocatori;
+	}
+
+	public Long getGiocatoreCercato() {
+		return giocatoreCercato;
+	}
+
+	public void setGiocatoreCercato(Long giocatoreCercato) {
+		this.giocatoreCercato = giocatoreCercato;
 	}
 
 	public static TavoloDTO buildTavoloDTOFromModel(Tavolo tavolo) {
 		return new TavoloDTO(tavolo.getId(), tavolo.getDenominazione(), tavolo.getDateCreated(),
-				tavolo.getEsperienzaMinima(), tavolo.getCreditoMinimo(),
-				UtenteDTO.buildUtenteDTOFromModel(tavolo.getUtenteCreatore()), tavolo.getUtenti());
+				tavolo.getEsperienzaMinima(), tavolo.getCreditoMinimo(), tavolo.getUtenteCreatore().getId(),
+				tavolo.getUtenti());
 	}
 
 	public static List<TavoloDTO> createTavoloDTOListFromModelList(List<Tavolo> modelListInput) {
@@ -162,8 +146,15 @@ public class TavoloDTO {
 		}).collect(Collectors.toList());
 	}
 
-	public Tavolo buildTavoloModel() {
+	public Tavolo buildTavoloModel(Utente creatore) {
 		return new Tavolo(this.id, this.denominazione, this.dateCreated, this.esperienzaMinima, this.creditoMinimo,
-				this.utenteCreatore.buildUtenteModel(false));
+				this.utentiGiocatori, creatore);
+	}
+
+	@Override
+	public String toString() {
+		return "TavoloDTO [id=" + id + ", dateCreated=" + dateCreated + ", denominazione=" + denominazione
+				+ ", esperienzaMinima=" + esperienzaMinima + ", cifraMinima=" + creditoMinimo + ", utenteCreatore="
+				+ utenteCreatore + ", utentiGiocatori=" + utentiGiocatori + "]";
 	}
 }

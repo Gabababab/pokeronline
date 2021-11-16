@@ -9,7 +9,7 @@ public interface CustomTavoloRepository {
 
 	List<Tavolo> findMieiTavoliByExample(TavoloDTO example);
 
-	List<Tavolo> findByExampleConCreatore(TavoloDTO example);
+	List<Tavolo> findByExampleGestioneAdmin(TavoloDTO example);
 
 	List<Tavolo> findByExample(TavoloDTO example);
 }

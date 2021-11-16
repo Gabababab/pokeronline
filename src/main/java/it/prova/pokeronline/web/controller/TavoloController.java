@@ -47,16 +47,15 @@ public class TavoloController {
 
 	@PostMapping("/listTavoliUtente")
 	public String listTavoliUtente(TavoloDTO tavoloExample, ModelMap model, HttpServletRequest request) {
-		tavoloExample.setUtenteCreatore(
-				UtenteDTO.buildUtenteDTOFromModel(utenteService.findByUsername(request.getUserPrincipal().getName())));
+		tavoloExample.setUtenteCreatore(utenteService.findByUsername(request.getUserPrincipal().getName()).getId());
 		List<Tavolo> tavoli = tavoloService.findMieiTavoliByExample(tavoloExample);
 		model.addAttribute("tavolo_list_attribute", TavoloDTO.createTavoloDTOListFromModelList(tavoli));
 		return "tavolo/listtavoliutente";
 	}
-
+	
 	@PostMapping("/list")
 	public String listTavoli(TavoloDTO tavoloExample, ModelMap model, HttpServletRequest request) {
-
+		
 		List<Tavolo> tavoli = tavoloService.findByExample(tavoloExample);
 		Utente utente = utenteService.findByUsername(request.getUserPrincipal().getName());
 		model.addAttribute("tavolo_list_attribute", TavoloDTO.createTavoloDTOListFromModelList(tavoli));
@@ -65,10 +64,27 @@ public class TavoloController {
 	}
 
 	@GetMapping("/searchTavoliUtente")
-	public String searchTavoliUtente(TavoloDTO tavoloExample, Model model, HttpServletRequest request) {
+	public String searchTavoliUtente(Model model, HttpServletRequest request) {
+		
+		model.addAttribute("search_tavolo_attr", new TavoloDTO());
+		return "tavolo/searchtavoliutente";
+	}
+	
+	@GetMapping("/searchTavoliGestione")
+	public String searchTavoliGestione(Model model, HttpServletRequest request) {
 		model.addAttribute("search_tavolo_attr", new TavoloDTO());
 
-		return "tavolo/searchtavoliutente";
+		return "tavolo/searchtavoligestione";
+	}
+	
+	@PostMapping("/listGestione")
+	public String listTavoliGestione(TavoloDTO tavoloExample, ModelMap model, HttpServletRequest request) {
+
+		List<Tavolo> tavoli = tavoloService.findByExampleGestioneAdmin(tavoloExample);
+		Utente utente = utenteService.findByUsername(request.getUserPrincipal().getName());
+		model.addAttribute("tavolo_list_attribute", TavoloDTO.createTavoloDTOListFromModelList(tavoli));
+		model.addAttribute("utente_attribute", utente);
+		return "tavolo/listtavoliutente";
 	}
 
 	@GetMapping("/search")
@@ -93,9 +109,9 @@ public class TavoloController {
 		Utente utenteInserimento = utenteService.findByUsername(request.getUserPrincipal().getName());
 		UtenteDTO utenteCreatore = UtenteDTO.buildUtenteDTOFromModel(utenteInserimento);
 
-		tavoloDTO.setUtenteCreatore(utenteCreatore);
+		tavoloDTO.setUtenteCreatore(utenteCreatore.getId());
 
-		tavoloService.inserisciNuovo(tavoloDTO.buildTavoloModel());
+		tavoloService.inserisciNuovo(tavoloDTO.buildTavoloModel(utenteCreatore.buildUtenteModel(false)));
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/tavolo";
@@ -142,9 +158,10 @@ public class TavoloController {
 
 		Tavolo tavolo = tavoloService.caricaSingoloElemento(tavoloDTO.getId());
 		tavoloDTO.setUtentiGiocatori(tavolo.getUtenti());
-		tavoloDTO.setUtenteCreatore(UtenteDTO.buildUtenteDTOFromModel(tavolo.getUtenteCreatore()));
+		UtenteDTO utenteCreatore=UtenteDTO.buildUtenteDTOFromModel(tavolo.getUtenteCreatore());
+		tavoloDTO.setUtenteCreatore(utenteCreatore.getId());
 
-		tavoloService.aggiorna(tavoloDTO.buildTavoloModel());
+		tavoloService.aggiorna(tavoloDTO.buildTavoloModel(utenteCreatore.buildUtenteModel(true)));
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/tavolo/listTavoliUtente";

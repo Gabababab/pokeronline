@@ -80,7 +80,7 @@
 				</div>
 				<div class='card-body'>
 
-					<form method="post" action="list" class="row g-3">
+					<form method="post" action="listGestione" class="row g-3">
 
 						<div class="col-md-6">
 							<label for="denominazione" class="form-label">Nome
@@ -117,17 +117,6 @@
 							<input type="hidden" name="utenteCreatore"
 								id="utenteCreatoreSearchInputId"
 								value="${search_gestione_tavolo_attr.utenteCreatore}">
-						</div>
-
-						<div class="col-md-6">
-							<label for="utenteGiocatoreSearchInput" class="form-label">Giocatori:</label>
-							<input class="form-control " type="text"
-								id="utenteGiocatoreSearchInput"
-								name="utenteGiocatoreSearchInput"
-								value="${tavolo_list_attribute.giocatoreCercato.nome}${tavolo_list_attribute.giocatoreCercato.cognome}">
-							<input type="hidden" name="giocatoreCercato"
-								id="utenteGiocatoreSearchInputId"
-								value="${tavolo_list_attribute.giocatoreCercato}">
 						</div>
 
 						<div class="col-12">
@@ -177,46 +166,6 @@
 					</script>
 
 
-
-
-					<!-- AUTOCOMPLETE GIOCATORE -->
-					<script>
-						$("#utenteGiocatoreSearchInput").autocomplete(
-								{
-									source : function(request, response) {
-										$.ajax({
-											url : "../utente/searchUtentiAjax",
-											datatype : "json",
-											data : {
-												term : request.term,
-											},
-											success : function(data) {
-												response($.map(data, function(
-														item) {
-													return {
-														label : item.label,
-														value : item.value
-													}
-												}))
-											}
-										})
-									},
-									//quando seleziono la voce nel campo deve valorizzarsi la descrizione
-									focus : function(event, ui) {
-										$("#utenteGiocatoreSearchInput").val(
-												ui.item.label)
-										return false
-									},
-									minLength : 2,
-									//quando seleziono la voce nel campo hidden deve valorizzarsi l'id
-									select : function(event, ui) {
-										$('#utenteGiocatoreSearchInputId').val(
-												ui.item.value);
-										//console.log($('#registaId').val())
-										return false;
-									}
-								});
-					</script>
 					<!-- end card-body -->
 				</div>
 

@@ -61,20 +61,27 @@
 							</a>
 								<div class="dropdown-menu" aria-labelledby="dropdown03">
 
-									<a class="dropdown-item" >Credito: ${userInfo.creditoAccumulato}</a>
-									<a class="dropdown-item" >Esperienza: ${userInfo.esperienzaAccumulata}</a> <a
-										class="dropdown-item"
+									<a class="dropdown-item">Credito:
+										${userInfo.creditoAccumulato}</a> <a class="dropdown-item">Esperienza:
+										${userInfo.esperienzaAccumulata}</a> <a class="dropdown-item"
 										href="${pageContext.request.contextPath}/utente/resetuserpassword">Reset
-										Password</a> <a class="dropdown-item"
-										href="${pageContext.request.contextPath}/logout">Logout</a> <a
-										class="dropdown-item"
-										href="${pageContext.request.contextPath}/tavolo/searchTavoliUtente">Gestione
-										Tavoli Creati</a> <a class="dropdown-item"
-										href="${pageContext.request.contextPath}/utente/setricarica">Ricarica
-										Conto</a>
+										Password</a>
+									<c:if test="${userInfo.isAdmin() || userInfo.isSpecial() }">
 										<a class="dropdown-item"
-										href="${pageContext.request.contextPath}/tavolo/lastgame">Tavolo attuale</a>
-
+											href="${pageContext.request.contextPath}/tavolo/searchTavoliUtente">Gestione
+											Tavoli Creati</a>
+									</c:if>
+									<c:if test="${userInfo.isAdmin() }">
+										<a class="dropdown-item"
+											href="${pageContext.request.contextPath}/tavolo/searchTavoliGestione">Gestione
+											Tavoli Utenti</a>
+									</c:if>
+									<a class="dropdown-item"
+										href="${pageContext.request.contextPath}/utente/setricarica">Ricarica
+										Conto</a> <a class="dropdown-item"
+										href="${pageContext.request.contextPath}/tavolo/lastgame">Tavolo
+										attuale</a> <a class="dropdown-item"
+										href="${pageContext.request.contextPath}/logout">Logout</a>
 								</div></li>
 						</sec:authorize>
 
