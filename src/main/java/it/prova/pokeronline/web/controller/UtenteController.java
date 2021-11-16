@@ -207,10 +207,5 @@ public class UtenteController {
 		return "index";		
 	}
 	
-	@GetMapping("/formregistrazione")
-	public String formRegistrazione(Model model, HttpServletRequest request) {
-		
-		model.addAttribute("utente_signup_attribute", new UtenteDTO());
-		return "utente/registrazione";		
-	}
+
 }
