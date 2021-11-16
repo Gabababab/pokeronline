@@ -31,7 +31,7 @@ public class SignupController {
 	public String formRegistrazione(Model model, HttpServletRequest request) {
 		
 		model.addAttribute("utente_signup_attribute", new UtenteDTO());
-		return "/registrazione";		
+		return "signup/registrazione";		
 	}
 	
 	@PostMapping("/registrazione")
